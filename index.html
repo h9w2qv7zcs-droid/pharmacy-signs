@@ -15,16 +15,13 @@
         body {
             font-family: 'Tajawal', sans-serif;
             background-color: var(--bg-light);
-            margin: 0;
-            padding: 0;
-            color: #333;
+            margin: 0; padding: 0; color: #333;
         }
         header {
             background: var(--primary);
             color: white;
             text-align: center;
             padding: 25px 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
         .container { max-width: 600px; margin: auto; padding: 20px; }
         
@@ -52,11 +49,10 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
         .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
         input, select {
             width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
             font-family: 'Tajawal'; font-size: 1rem; box-sizing: border-box;
-            background-color: #fff;
         }
         input[type="tel"] { direction: ltr; text-align: right; }
 
@@ -71,15 +67,6 @@
             cursor: pointer;
             font-weight: bold;
             margin-top: 10px;
-            transition: 0.3s;
-        }
-        .btn-send:hover { background-color: #1ebe57; }
-        
-        .info-msg {
-            font-size: 0.8rem;
-            color: #666;
-            margin-top: 5px;
-            display: none; /* يظهر فقط عند اختيار الثمانية */
         }
     </style>
 </head>
@@ -87,63 +74,59 @@
 
 <header>
     <h1>مطبعة العلمية للافتات</h1>
-    <p>تعديل وحجز لافتات الصيدليات - طرابلس</p>
+    <p>تعديل وحجز لافتات الصيدليات</p>
 </header>
 
 <div class="container">
     <div class="price-list">
-        <h3 style="text-align: center; margin-top: 0; color: #444;">الأسعار الحالية</h3>
+        <h3 style="text-align: center; margin-top: 0; color: #444;">قائمة الأسعار والخدمات</h3>
         <div class="price-item">
             <span>لافتة 2.4م × 0.6م</span>
             <span class="price-value">2400 د.ل</span>
         </div>
         <div class="price-item">
             <span>لافتة 2م × 0.5م</span>
-            <span class="price-value">1900 د.ل</span> </div>
+            <span class="price-value">1900 د.ل</span>
+        </div>
         <div class="price-item">
             <span>لافتة 1.2م × 0.5م</span>
             <span class="price-value">1500 د.ل</span>
         </div>
         <div class="price-item">
-            <span>لافتة ثمانية 60سم</span>
-            <span class="price-value">1450 د.ل</span>
+            <span>لافتة ثمانية 80سم</span> <span class="price-value">1450 د.ل</span>
         </div>
     </div>
 
     <div class="booking-card">
         <div class="form-group">
             <label>اسم الزبون / الصيدلية:</label>
-            <input type="text" id="name" placeholder="مثلاً: صيدلية الشفاء">
+            <input type="text" id="name" placeholder="مثلاً: صيدلية العلمية">
         </div>
 
         <div class="form-group">
             <label>رقم الهاتف:</label>
-            <input type="tel" id="user_phone" inputmode="numeric" placeholder="091XXXXXXX">
+            <input type="tel" id="user_phone" inputmode="numeric" placeholder="09XXXXXXXX">
         </div>
 
         <div class="form-group">
             <label>المدينة:</label>
-            <input type="text" id="city" placeholder="ادخل مدينتك">
+            <input type="text" id="city" placeholder="ادخل المدينة">
         </div>
 
         <div class="form-group">
             <label>اختر المقاس:</label>
-            <select id="size" onchange="checkSize()">
+            <select id="size" onchange="updateLanguageOptions()">
                 <option value="2.4م × 0.6م (2400 د.ل)">2.4م × 0.6م</option>
                 <option value="2م × 0.5م (1900 د.ل)">2م × 0.5م</option>
                 <option value="1.2م × 0.5م (1500 د.ل)">1.2م × 0.5م</option>
-                <option value="ثمانية 60سم (1450 د.ل)">ثمانية 60سم</option>
+                <option value="ثمانية 80سم (1450 د.ل)">ثمانية 80سم</option>
             </select>
         </div>
 
         <div class="form-group">
             <label>اللغة المطلوبة:</label>
             <select id="lang">
-                <option id="opt_both" value="جهة عربي وجهة إنجليزي">جهة عربي وجهة إنجليزي</option>
-                <option id="opt_ar" value="الجهتين عربي">الجهتين عربي</option>
-                <option id="opt_en" value="الجهتين إنجليزي">الجهتين إنجليزي</option>
-            </select>
-            <div id="en_only_msg" class="info-msg">ملاحظة: اللافتة الثمانية تدعم اللغة الإنجليزية فقط.</div>
+                </select>
         </div>
 
         <div class="form-group">
@@ -154,32 +137,43 @@
             </select>
         </div>
 
-        <button class="btn-send" onclick="sendToWA()">تأكيد وإرسال الطلب</button>
+        <button class="btn-send" onclick="sendToWA()">تأكيد وإرسال عبر واتساب</button>
     </div>
 </div>
 
 <script>
-    // وظيفة للتحقق من المقاس المختار وتعديل خيارات اللغة
-    function checkSize() {
+    // هذه الوظيفة لتحديث قائمة اللغات بناءً على المقاس المختار
+    function updateLanguageOptions() {
         const size = document.getElementById('size').value;
         const langSelect = document.getElementById('lang');
-        const optBoth = document.getElementById('opt_both');
-        const optAr = document.getElementById('opt_ar');
-        const infoMsg = document.getElementById('en_only_msg');
+        
+        // تفريغ القائمة الحالية
+        langSelect.innerHTML = "";
 
         if (size.includes("ثمانية")) {
-            // إذا اختار ثمانية: اخفاء خيارات العربي واختيار الانجليزي تلقائياً
-            optBoth.style.display = "none";
-            optAr.style.display = "none";
-            langSelect.value = "الجهتين إنجليزي";
-            infoMsg.style.display = "block";
+            // إذا كانت ثمانية، أضف خيار الإنجليزي فقط
+            const option = document.createElement("option");
+            option.value = "الجهتين إنجليزي (فقط)";
+            option.text = "الجهتين إنجليزي (فقط)";
+            langSelect.add(option);
         } else {
-            // إذا اختار مقاس آخر: إظهار كل الخيارات
-            optBoth.style.display = "block";
-            optAr.style.display = "block";
-            infoMsg.style.display = "none";
+            // المقاسات الأخرى، أضف كل الخيارات
+            const options = [
+                "جهة عربي وجهة إنجليزي",
+                "الجهتين عربي",
+                "الجهتين إنجليزي"
+            ];
+            options.forEach(opt => {
+                const option = document.createElement("option");
+                option.value = opt;
+                option.text = opt;
+                langSelect.add(option);
+            });
         }
     }
+
+    // تشغيل الوظيفة مرة واحدة عند تحميل الصفحة لضمان ظهور الخيارات
+    window.onload = updateLanguageOptions;
 
     function sendToWA() {
         const name = document.getElementById('name').value;
@@ -191,7 +185,7 @@
         const myNumber = "218911731040";
 
         if(!name || !uPhone || !city) {
-            alert("الرجاء تعبئة كافة البيانات الأساسية");
+            alert("يرجى إكمال البيانات المطلوبة");
             return;
         }
 
