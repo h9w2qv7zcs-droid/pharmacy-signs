@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حجز لافتات الصيدلية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0056b3;
+            --secondary: #25d366;
+            --bg-light: #f8f9fa;
+        }
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background: #004a99;
+            color: white;
+            text-align: center;
+            padding: 30px 10px;
+        }
+        .container { max-width: 800px; margin: auto; padding: 20px; }
+        
+        .price-list {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .price-item:last-child { border-bottom: none; }
+        .price-name { font-weight: bold; color: var(--primary); }
+        .price-value { font-weight: bold; color: #e67e22; }
+
+        .booking-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        input, select {
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px;
+            font-family: 'Tajawal'; font-size: 1rem; box-sizing: border-box;
+        }
+        .btn-send {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .btn-send:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>منظومة حجز لافتات الصيدليات</h1>
+    <p>اختر المواصفات وسيتم التواصل معك لتأكيد الطلب</p>
+</header>
+
+<div class="container">
+    <div class="price-list">
+        <h3 style="text-align: center; color: #666;">قائمة الأسعار المعتمدة</h3>
+        <div class="price-item">
+            <span class="price-name">لافتة 2.4م × 0.6م</span>
+            <span class="price-value">2400 د.ل</span>
+        </div>
+        <div class="price-item">
+            <span class="price-name">لافتة 2م × 0.5م</span>
+            <span class="price-value">2000 د.ل</span>
+        </div>
+        <div class="price-item">
+            <span class="price-name">لافتة 1.2م × 0.5م</span>
+            <span class="price-value">1500 د.ل</span>
+        </div>
+        <div class="price-item">
+            <span class="price-name">لافتة ثمانية 60سم</span>
+            <span class="price-value">1450 د.ل</span>
+        </div>
+    </div>
+
+    <div class="booking-card">
+        <div class="form-group">
+            <label>اسم الصيدلية / الزبون:</label>
+            <input type="text" id="name" placeholder="ادخل الاسم هنا">
+        </div>
+
+        <div class="form-group">
+            <label>اختر المقاس:</label>
+            <select id="size">
+                <option value="2.4م × 0.6م (2400 د.ل)">2.4م × 0.6م</option>
+                <option value="2م × 0.5م (2000 د.ل)">2م × 0.5م</option>
+                <option value="1.2م × 0.5م (1500 د.ل)">1.2م × 0.5م</option>
+                <option value="ثمانية 60سم (1450 د.ل)">ثمانية 60سم</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>اللغة المطلوبة:</label>
+            <select id="lang">
+                <option value="جهة عربي وجهة إنجليزي">جهة عربي وجهة إنجليزي</option>
+                <option value="الجهتين عربي">الجهتين عربي</option>
+                <option value="الجهتين إنجليزي">الجهتين إنجليزي</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>نوع الشعار:</label>
+            <select id="logo">
+                <option value="شعار المهراس">شعار المهراس</option>
+                <option value="شعار الكأس والأفعى">شعار الكأس والأفعى</option>
+            </select>
+        </div>
+
+        <button class="btn-send" onclick="sendToWA()">تأكيد الطلب عبر واتساب</button>
+    </div>
+</div>
+
+<script>
+    function sendToWA() {
+        const name = document.getElementById('name').value;
+        const size = document.getElementById('size').value;
+        const lang = document.getElementById('lang').value;
+        const logo = document.getElementById('logo').value;
+        const phone = "218911731040";
+
+        if(!name) {
+            alert("الرجاء كتابة الاسم");
+            return;
+        }
+
+        const text = `*حجز لافتة صيدلية جديدة*%0A` +
+                     `*الاسم:* ${name}%0A` +
+                     `*المقاس:* ${size}%0A` +
+                     `*اللغة:* ${lang}%0A` +
+                     `*الشعار:* ${logo}`;
+
+        window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+    }
+</script>
+
+</body>
+</html>
